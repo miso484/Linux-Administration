@@ -1,0 +1,1 @@
+Use SSHPass to automate inputting password on password authentication.

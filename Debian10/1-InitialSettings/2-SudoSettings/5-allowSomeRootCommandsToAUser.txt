@@ -1,0 +1,25 @@
+root@dlp:~# visudo
+
+# add to the end : set specific commands to each user
+fedora   ALL=(ALL:ALL) /usr/sbin/visudo
+cent     ALL=(ALL:ALL) /usr/sbin/adduser, /usr/sbin/useradd, /usr/sbin/newusers, \
+                       /usr/sbin/deluser, /usr/sbin/userdel, /usr/sbin/usermod, /usr/bin/passwd
+ubuntu   ALL=(ALL:ALL) /usr/bin/vim
+
+# verify with user [fedora]
+fedora@dlp:~$ sudo /usr/sbin/visudo
+
+# possible open and edit
+## Sudoers allows particular users to run various commands as
+## the root user, without needing the root password.
+##
+
+# verify with user [cent]
+cent@dlp:~$ sudo /usr/sbin/userdel -r testuser
+cent@dlp:~$     # possible execute
+
+# verify with user [ubuntu]
+ubuntu@dlp:~$ sudo /usr/bin/vim /root/.profile
+
+# possible open and edit
+# ~/.profile: executed by Bourne-compatible login shells.

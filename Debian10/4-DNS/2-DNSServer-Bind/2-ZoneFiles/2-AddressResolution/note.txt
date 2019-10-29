@@ -1,0 +1,1 @@
+Create zone files that servers resolve IP address from domain name.

@@ -1,0 +1,93 @@
+# it's possible to use the init script in Ubuntu like follows
+
+cat <<EOT >> /etc/init.d/rtslib-fb-targetctl
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:             rtslib-fb-targetctl
+# Required-Start:       $network $local_fs $remote_fs $syslog
+# Required-Stop:        $local_fs $network $remote_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Start LIO targets
+# Description:          Loads configfs and restores LIO config with targetctl
+### END INIT INFO
+
+# Author: Thomas Goirand <zigo@debian.org>
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="rstlib-fb targetctl"
+NAME=targetctl
+DAEMON=/usr/bin/${NAME}
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/rtslib-fb-targetctl
+SYSTEM_USER=trove
+
+[ -x $DAEMON ] || exit 0
+
+. /lib/lsb/init-functions
+
+check_configfs_module () {
+        if ! modprobe configfs ; then
+                echo "Could not load configfs module: exiting!"
+                exit 0
+        fi
+        sleep 10
+}
+
+check_configfs_mounted () {
+        WORD_TO_GREP_IN_PROCMOUNT=configfs
+        NUM_RETRY=50
+        while ! cat /proc/mounts | grep -q ${WORD_TO_GREP_IN_PROCMOUNT} && [ "${NUM_RETRY}" != 0 ] ; do
+                NUM_RETRY=$(( $NUM_RETRY - 1 ))
+                sleep 0.1
+        done
+
+        if ! cat /proc/mounts | grep -q ${WORD_TO_GREP_IN_PROCMOUNT} ; then
+                echo " ${WORD_TO_GREP_IN_PROCMOUNT} not found in /proc/mount: exiting!"
+                exit 0
+        fi
+}
+
+case "$1" in
+start)
+        check_configfs_module
+        check_configfs_mounted
+        log_daemon_msg "Loading $DESC" "$NAME"
+        ${DAEMON} restore
+        if [ $? -gt 0 ] ; then
+                log_end_msg 1
+                exit 1
+        fi
+        log_end_msg 0
+;;
+stop)
+        check_configfs_module
+        log_daemon_msg "Unloading $DESC" "${NAME}"
+        ${DAEMON} clear
+        if [ $? -gt 0 ] ; then
+                log_end_msg 1
+                exit 1
+        fi
+        log_end_msg 0
+;;
+restart|reload|force-reload)
+        $0 stop
+        sleep 3
+        $0 start
+;;
+status)
+        echo "Not supported!"
+        exit 1
+;;
+*)
+        echo "usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}"
+        exit 1
+;;
+esac
+
+exit 0
+EOT
+
+chmod 755 /etc/init.d/rtslib-fb-targetctl
+systemctl enable rtslib-fb-targetctl

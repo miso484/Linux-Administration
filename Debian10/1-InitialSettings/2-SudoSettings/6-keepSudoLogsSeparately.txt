@@ -1,0 +1,12 @@
+root@dlp:~# visudo
+
+# add to the end
+Defaults syslog=local1
+
+root@dlp:~# vi /etc/rsyslog.conf
+
+# line 61: add
+local1.*                        /var/log/sudo.log
+auth,authpriv.*;local1.none     /var/log/auth.log
+
+root@dlp:~# systemctl restart rsyslog

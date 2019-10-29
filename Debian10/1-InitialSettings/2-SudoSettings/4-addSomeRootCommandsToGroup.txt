@@ -1,0 +1,21 @@
+root@dlp:~# visudo
+
+# add aliase for the kind of user management commands
+# Cmnd alias specification
+Cmnd_Alias USERMGR = /usr/sbin/adduser, /usr/sbin/useradd, /usr/sbin/newusers, \
+/usr/sbin/deluser, /usr/sbin/userdel, /usr/sbin/usermod, /usr/bin/passwd
+
+# add to the end
+%usermgr   ALL=(ALL:ALL) USERMGR
+
+root@dlp:~# groupadd usermgr
+root@dlp:~# usermod -G usermgr buster
+
+# verify with user [buster]
+buster@dlp:~$ sudo /usr/sbin/useradd testuser
+buster@dlp:~$
+buster@dlp:~$ sudo /usr/bin/passwd testuser
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+# possible execute

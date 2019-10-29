@@ -1,0 +1,14 @@
+root@dlp:~# visudo
+
+# add aliase for the kind of shutdown commands
+# Cmnd alias specification
+Cmnd_Alias SHUTDOWN = /usr/sbin/halt, /usr/sbin/shutdown, \
+/usr/sbin/poweroff, /usr/sbin/reboot, /usr/sbin/init, /usr/bin/systemctl 
+
+# add ( commands in aliase [SHUTDOWN] are not allowed )
+buster    ALL=(ALL:ALL) ALL, !SHUTDOWN
+
+# verify with user [buster]
+buster@dlp:~$ sudo /usr/sbin/reboot
+[sudo] password for buster:
+Sorry, user buster is not allowed to execute '/usr/sbin/reboot' as root on dlp.srv.world.   # denied

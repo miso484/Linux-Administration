@@ -1,0 +1,1 @@
+Use SSH-Agent to automate inputting passphrase on key-pair authentication.
