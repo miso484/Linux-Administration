@@ -1,0 +1,3 @@
+Install GlusterFS to Configure Storage Cluster.
+It is recommended to use partitions for GlusterFS volumes which are different from the / partition.
+The environment on this example is set as that [sdb1] is mounted on [/glusterfs] directory for GlusterFS Configuration on all Nodes.

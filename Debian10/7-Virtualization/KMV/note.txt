@@ -1,0 +1,2 @@
+This is the Virtualization Configuration with KVM ( Kernel-based Virtual Machine ) + QEMU.
+This requires that the CPU on your computer which has a function Intel VT or AMD-V.

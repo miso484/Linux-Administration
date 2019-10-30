@@ -1,0 +1,3 @@
+Install NFS-Ganesha and integrate with GlusterFS to mount Gluster Volume with NFS protocol.
+The supported NFS protocols by NFS-Ganesha are v3, v4.0, v4.1, pNFS.
+
