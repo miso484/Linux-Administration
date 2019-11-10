@@ -1,8 +1,16 @@
-# Configure Docker Swarm to create Docker Cluster with multiple Docker nodes.
-
-# On this example, Configure Swarm Cluster with 3 Docker nodes like follows.
-# There are 2 roles on Swarm Cluster, those are [Manager nodes] and [Worker nodes
-# This example shows to set those roles like follows.
+<<Example
+Configure Docker Swarm to create Docker Cluster with multiple Docker nodes.
+On this example, Configure Swarm Cluster with 3 Docker nodes like follows.
+There are 2 roles on Swarm Cluster, those are [Manager nodes] and [Worker nodes
+This example shows to set those roles like follows.
+ -----------+---------------------------+--------------------------+------------
+            |                           |                          |
+        eth0|10.0.0.51              eth0|10.0.0.52             eth0|10.0.0.53
+ +----------+-----------+   +-----------+----------+   +-----------+----------+
+ | [ node01.srv.world ] |   | [ node02.srv.world ] |   | [ node03.srv.world ] |
+ |       Manager        |   |        Worker        |   |        Worker        |
+ +----------------------+   +----------------------+   +----------------------+
+Example
 
 #
 ## Install and run Docker service on all nodes
